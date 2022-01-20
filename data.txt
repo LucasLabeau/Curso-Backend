@@ -1,0 +1,1 @@
+[{"id":1,"title":"Cartuchera","price":400},{"id":2,"title":"Lapicera","price":50},{"id":3,"title":"Lapiz","price":20},{"id":4,"title":"Cuaderno","price":200},{"id":5,"title":"Marcador","price":100}]

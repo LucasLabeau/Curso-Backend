@@ -1,0 +1,14 @@
+{
+  "name": "proyecto",
+  "version": "1.0.0",
+  "description": "An E-commerce poject",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Lucas Labeau",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.2"
+  }
+}
