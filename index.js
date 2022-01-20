@@ -14,7 +14,7 @@ class Contenedor {
   // MÉTODOS
 
   // GUARDAR PRODUCTO
-  save = (obj) => {
+  save(obj) {
     const checker = fs.existsSync(path);
     let products = [];
 
@@ -43,28 +43,28 @@ class Contenedor {
   }
 
   // BUSCAR UN ID Y DEVOLVER PRODUCTO
-  getById = (id) => {
+  async getById(id) {
     let products = [];
     try {
-      let reader = fs.readFileSync(path, 'utf-8');
+      let reader = await fs.promises.readFile(path, "utf-8");
       let contenido = JSON.parse(reader);
       for (let i=0; i<contenido.length; i++) {
         products.push(contenido[i]);
       }
 
-      let filtered = products.filter((product) => (product.id === id));
-      return filtered[0];
+      let filtered = products.find((el) => (el.id === id));
+      return filtered;
     } catch (e) {
       console.error(e);
     }
   }
 
   // DEVOLVER TODOS LOS PRODUCTOS
-  getAll = () => {
+  async getAll() {
     let products = [];
 
     try {
-      let reader = fs.readFileSync(path, 'utf-8');
+      let reader = await fs.promises.readFile(path, "utf-8");
       let contenido = JSON.parse(reader);
       for (let i=0; i<contenido.length; i++) {
         products.push(contenido[i]);
@@ -76,7 +76,7 @@ class Contenedor {
   }
 
   // BORRAR UN PRODUCTO SEGÚN SU ID
-  deleteById = (id) => {
+  deleteById(id) {
     let products = [];
 
     try {
@@ -95,7 +95,7 @@ class Contenedor {
   }
 
   // BORRAR TODOS LOS PRODUCTOS
-  deleteAll = () => {
+  deleteAll() {
     let products = [];
     let objJson = JSON.stringify(products);
     fs.writeFileSync(path, objJson);
@@ -105,19 +105,19 @@ class Contenedor {
 // EJECUCIONES DE PRUEBA
 
 let prod1 = new Contenedor("Cartuchera", 400);
-// prod1.save(prod1);
+prod1.save(prod1);
 //
 let prod2 = new Contenedor("Lapicera", 50);
-// prod2.save(prod2);
+prod2.save(prod2);
 //
 let prod3 = new Contenedor("Lapiz", 20);
-// prod3.save(prod3);
+prod3.save(prod3);
 //
 let prod4 = new Contenedor("Cuaderno", 200);
-// prod4.save(prod4);
+prod4.save(prod4);
 //
 let prod5 = new Contenedor("Marcador", 100);
-// prod5.save(prod5);
+prod5.save(prod5);
 
 // console.log(prod3.getById(3));
 
@@ -131,4 +131,6 @@ let prod5 = new Contenedor("Marcador", 100);
 
 // console.log(prod1.getAll());
 
-module.exports.Contenedor = Contenedor;
+module.exports = {
+  Contenedor: Contenedor
+};
