@@ -2,7 +2,7 @@
 
 const fs = require('fs');
 
-const path = './data.txt';
+const path = './data.json';
 
 // DECLARACIÓN DE CLASE
 class Contenedor {
@@ -105,19 +105,19 @@ class Contenedor {
 // EJECUCIONES DE PRUEBA
 
 let prod1 = new Contenedor("Cartuchera", 400);
-prod1.save(prod1);
+// prod1.save(prod1);
 //
 let prod2 = new Contenedor("Lapicera", 50);
-prod2.save(prod2);
+// prod2.save(prod2);
 //
 let prod3 = new Contenedor("Lapiz", 20);
-prod3.save(prod3);
+// prod3.save(prod3);
 //
 let prod4 = new Contenedor("Cuaderno", 200);
-prod4.save(prod4);
+// prod4.save(prod4);
 //
 let prod5 = new Contenedor("Marcador", 100);
-prod5.save(prod5);
+// prod5.save(prod5);
 
 // console.log(prod3.getById(3));
 

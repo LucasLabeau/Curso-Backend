@@ -12,21 +12,24 @@ const server = app.listen(port, () => {
 });
 server.on("error", error => console.error(`Server Error ${error}`));
 
-app.get('/productos', (req, res) => {
-  res.send(console.log(obj.getAll()))
+app.get('/productos', async(req, res) => {
+    try {
+        //const content = await fs.promises.readFile('data.json', 'utf-8');
+        const todosProductos = await obj.getAll();
+        res.json(todosProductos)
+    } catch (error) {
+        res.status(error).send('Server error')
+    }
 });
 
-app.get('/productoRandom', (req, res) => {
-  let random = Math.floor(Math.random() * 6).toFixed(0);
-  res.send(console.log(obj.getById(random)))
+app.get('/productoRandom', async(req, res) => {
+    try {
+        const todosProductos = await obj.getAll();
+        const max = todosProductos.length;
+        const random = Math.ceil(Math.random() * (max));
+        const productoPorId = await obj.getById(random);
+        res.json(productoPorId);
+    } catch (error) {
+        res.status(error).send('Server error')
+    }
 });
-// const server = http.createServer((req, res) => {
-//   let msg = {code: 200, msg: 'Conectado'}
-//   res.end(JSON.stringify(msg, null, 2));
-//
-//   if (req.url == '/productos') {
-//
-//   } else if (req.url == '/productoRandom') {
-//
-//   }
-// });
