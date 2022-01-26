@@ -17,29 +17,32 @@ class Contenedor {
   save(obj) {
     const checker = fs.existsSync(path);
     let products = [];
-
+    let newProduct = {};
     let id;
     try {
       if (checker) {
         let reader = fs.readFileSync(path, 'utf-8');
         let contenido = JSON.parse(reader);
-        id = contenido.length + 1;
-
+        if (obj.id != undefined) {
+          id = obj.id;
+        } else {
+          id = contenido.length + 1;
+        }
         for (let i=0; i<contenido.length; i++) {
           products.push(contenido[i]);
         }
-
-        products.push({id:id, title:obj.title, price:obj.price});
+        newProduct = {id:id, title:obj.title, price:obj.price}
+        products.push(newProduct);
       } else {
-        id=1;
-        products.push({id:1, title:obj.title, price:obj.price});
+        newProduct = {id:1, title:obj.title, price:obj.price}
+        products.push(newProduct);
       }
       let objJson = JSON.stringify(products);
       fs.writeFileSync(path, objJson);
     } catch(e) {
       console.error(e);
     }
-    return id;
+    return newProduct;
   }
 
   // BUSCAR UN ID Y DEVOLVER PRODUCTO
@@ -85,10 +88,11 @@ class Contenedor {
       for (let i=0; i<contenido.length; i++) {
         products.push(contenido[i]);
       }
-
+      let erased = products.find((product) => (product.id === id));
       let filtered = products.filter((product) => (product.id != id));
       let objJson = JSON.stringify(filtered);
       fs.writeFileSync(path, objJson);
+      return erased;
     } catch (e) {
       console.error(e);
     }

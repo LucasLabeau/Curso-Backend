@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="twitter:" content="">
+    <title>Proyecto</title>
+  </head>
+  <body>
+    <section style="padding: 50px 0px;">
+      <h1>Subir Producto</h1>
+      <form action="/api/productos" method="post" enctype="application/x-www-form-urlencoded">
+        <label for="title">Nombre</label>
+        <input type="text" name="title" value="">
+
+        <label for="price">Precio</label>
+        <input type="number" name="price" value="">
+
+        <button type="submit">Guardar</button>
+      </form>
+    </section>
+    <section style="padding: 50px 0px;">
+      <h1>Modificar Producto</h1>
+      <form class="" action="/api/productos" method="put">
+        <label for="id">Id del producto</label>
+        <input type="number" name="id" value="">
+
+        <label for="title">Nombre</label>
+        <input type="text" name="title" value="">
+
+        <label for="price">Precio</label>
+        <input type="number" name="price" value="">
+
+        <button type="submit">Guardar</button>
+      </form>
+    </section>
+    <section>
+      <h1>Eliminar Producto</h1>
+      <form class="" action="/api/productos" method="delete">
+        <label for="id">Id del producto</label>
+        <input type="number" name="id" value="">
+
+        <button type="submit">Borrar</button>
+      </form>
+    </section>
+  </body>
+</html>
