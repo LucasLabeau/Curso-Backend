@@ -1,30 +1,36 @@
-{{#if form}}
-  <section style="padding: 50px 0px;">
-    <h1>Subir Producto</h1>
-    <form action="/api/productos" method="post" enctype="application/x-www-form-urlencoded">
-      <label for="title">Nombre</label>
-      <input type="text" name="title" value="">
-
-      <label for="price">Precio</label>
-      <input type="number" name="price" value="">
-
-      <button type="submit">Guardar</button>
-    </form>
-    <a href="/productos">Ver todos los productos</a>
-  </section>
-{{/if}}
-
-<section>
-  {{#if hayProductos}}
-    <h4>Nuestros Productos</h4>
-    <div class="products">
-      {{#each products}}
-        <ul>
-          <li>{{this.title}}</li>
-          <li>{{this.price}}</li>
-        </ul>
-      {{/each}}
-    </div>
-    <a href="/">Volver al Form</a>
+<div class="container">
+  <h1 class="text-center">Mi E-commerce</h1>
+  {{#if form}}
+    <section style="padding: 50px 0px;">
+      <h1>Subir Producto</h1>
+      <form action="/api/productos" method="post" enctype="application/x-www-form-urlencoded">
+        <div class="mb-3">
+          <label class="form-label" for="title">Nombre</label>
+          <input class="form-control" type="text" name="title" value="">
+        </div>
+        <div class="mb-3">
+          <label class="form-label" for="price">Precio</label>
+          <input class="form-control" type="number" name="price" value="">
+        </div>
+        <button type="submit" class="mb-5 btn btn-primary">Guardar</button>
+      </form>
+      <a href="/productos"class="btn btn-info">Ver todos los productos</a>
+    </section>
   {{/if}}
-</section>
+
+  <section>
+    {{#if hayProductos}}
+      <h4>Nuestros Productos</h4>
+      {{#each products}}
+        <div class="products card">
+          <div class="card-body">
+            <h5 class="card-title">{{this.title}}</h5>
+            <h6 class="card-subtitle">{{this.price}}</h6>
+          </div>
+        </div>
+      {{/each}}
+      <a class="btn btn-info" href="/">Volver al Form</a>
+    {{/if}}
+  </section>
+
+</div>
