@@ -1,0 +1,30 @@
+{{#if form}}
+  <section style="padding: 50px 0px;">
+    <h1>Subir Producto</h1>
+    <form action="/api/productos" method="post" enctype="application/x-www-form-urlencoded">
+      <label for="title">Nombre</label>
+      <input type="text" name="title" value="">
+
+      <label for="price">Precio</label>
+      <input type="number" name="price" value="">
+
+      <button type="submit">Guardar</button>
+    </form>
+    <a href="/productos">Ver todos los productos</a>
+  </section>
+{{/if}}
+
+<section>
+  {{#if hayProductos}}
+    <h4>Nuestros Productos</h4>
+    <div class="products">
+      {{#each products}}
+        <ul>
+          <li>{{this.title}}</li>
+          <li>{{this.price}}</li>
+        </ul>
+      {{/each}}
+    </div>
+    <a href="/">Volver al Form</a>
+  {{/if}}
+</section>
