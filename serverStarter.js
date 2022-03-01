@@ -1,10 +1,14 @@
-// EXPRESS
+// EXPRESS Y SERVER
 const express = require('express');
 const app = express();
 
 const {Server: HttpServer} = require('http');
-const {}
 
+// LLAMADA A DB
+const { options } = require('./options/mariaDB.js');
+const knex = require('knex')(options);
+
+// ETC...
 const bodyParser = require('body-parser');
 
 const morgan = require('morgan');
@@ -51,60 +55,6 @@ app.get('/', (req, res) => {
 })
 
 app.get('/productos', async(req, res) => {
-    try {
-      const allProducts = await obj.getAll();
-      res.render('main', {products: allProducts, hayProductos: true, form: false});
-    } catch (error) {
-      res.status(error).send('Server error')
-    }
+  const allProducts = await obj.getAll();
+  res.render('main', {products: allProducts, hayProductos: true, form: false});
 });
-
-// router.get('/productos/:id', async(req, res) => {
-//     try {
-//       let id = parseInt(req.params.id)
-//       const productById = await obj.getById(id);
-//       if (productById) {
-//         res.json(productById);
-//       } else {
-//         res.json({ error: "producto no encontrado" })
-//       }
-//
-//     } catch (error) {
-//         res.status(error).send('Server error');
-//     }
-// });
-//
-// router.post('/productos', async(req, res) => {
-//   try {
-//     const saveProduct = await obj.save(req.body);
-//     res.json(saveProduct);
-//   } catch (e) {
-//     res.status(e).send('Server error');
-//   }
-// });
-//
-// router.put('/productos/:id', async(req, res) => {
-//     try {
-//       let id = parseInt(req.params.id)
-//       const productById = await obj.getById(id);
-//       if (productById != undefined) {
-//         const deleteProduct = await obj.deleteById(id);
-//         const saveProduct = await obj.save({id: id, title: req.body.title, price: req.body.price});
-//         res.json(saveProduct);
-//       } else {
-//         res.json({ error: "producto no encontrado" })
-//       }
-//     } catch (e) {
-//       res.status(e).send('Server error');
-//     }
-// });
-//
-// router.delete('/productos/:id', async(req,res) => {
-//     try {
-//       let id = parseInt(req.params.id);
-//       const deleteProduct = await obj.deleteById(id);
-//       res.json([{ productoEliminado: deleteProduct}]);
-//     } catch (e) {
-//       res.status(e).send('Server error');
-//     }
-// });

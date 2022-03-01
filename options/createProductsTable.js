@@ -20,4 +20,4 @@ knex.schema.createTable('products', table => {
   })
   .finally(() => {
     knex.destroy();
-  })
+  });
