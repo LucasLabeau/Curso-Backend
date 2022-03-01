@@ -1,3 +1,7 @@
+// LLAMADA A DB
+const { options } = require('./options/mariaDB.js');
+const knex = require('knex')(options);
+
 // VARIABLES GLOBALES
 
 const fs = require('fs');
@@ -13,69 +17,59 @@ class Contenedor {
 
   // MÉTODOS
 
+  // GUARDAR PRODUCTO DE PRUEBA
+  saveDefault() {
+    let products = [];
+    let reader = fs.readFileSync(path, 'utf-8');
+    let contenido = JSON.parse(reader);
+
+    for (let i=0; i<contenido.length; i++) {
+      products.push(contenido[i]);
+    }
+
+    knex('products').insert(products)
+      .then(() => console.log('Products inserted!'))
+      .catch(e => console.error({codigo: `${error.errno} -> ${error.code}`, msg: error.sqlMessage}))
+      .finally(() => knex.destroy());
+  }
+
   // GUARDAR PRODUCTO
   save(obj) {
-    const checker = fs.existsSync(path);
     let products = [];
-    let newProduct = {};
+    let newProduct = {{title:obj.title, price:obj.price}};
     let id;
-    try {
-      if (checker) {
-        let reader = fs.readFileSync(path, 'utf-8');
-        let contenido = JSON.parse(reader);
-        if (obj.id != undefined) {
-          id = obj.id;
-        } else {
-          id = contenido.length + 1;
-        }
-        for (let i=0; i<contenido.length; i++) {
-          products.push(contenido[i]);
-        }
-        newProduct = {id:id, title:obj.title, price:obj.price}
-        products.push(newProduct);
-      } else {
-        newProduct = {id:1, title:obj.title, price:obj.price}
-        products.push(newProduct);
-      }
-      let objJson = JSON.stringify(products);
-      fs.writeFileSync(path, objJson);
-    } catch(e) {
-      console.error(e);
-    }
+    knex('products').insert(newProduct)
+      .then(() => console.log('New product inserted!'))
+      .catch(e => console.error({codigo: `${error.errno} -> ${error.code}`, msg: error.sqlMessage}))
+      .finally(() => knex.destroy());
+
     return newProduct;
   }
 
   // BUSCAR UN ID Y DEVOLVER PRODUCTO
-  async getById(id) {
+  getById(id) {
     let products = [];
-    try {
-      let reader = await fs.promises.readFile(path, "utf-8");
-      let contenido = JSON.parse(reader);
-      for (let i=0; i<contenido.length; i++) {
-        products.push(contenido[i]);
-      }
 
-      let filtered = products.find((el) => (el.id === id));
-      return filtered;
-    } catch (e) {
-      console.error(e);
-    }
+    knex.from('products').select('*').where('id', '=', id)
+      .then(rows => {
+        for (let row of rows) {
+          products.push(row);
+        }
+        return products[0];
+      })
   }
 
   // DEVOLVER TODOS LOS PRODUCTOS
   async getAll() {
     let products = [];
 
-    try {
-      let reader = await fs.promises.readFile(path, "utf-8");
-      let contenido = JSON.parse(reader);
-      for (let i=0; i<contenido.length; i++) {
-        products.push(contenido[i]);
-      }
-      return products;
-    } catch (e) {
-      console.error(e);
-    }
+    knex.from('products').select('*')
+      .then(rows => {
+        for (let row of rows) {
+          products.push(row);
+        }
+        return products;
+      })
   }
 
   // BORRAR UN PRODUCTO SEGÚN SU ID
@@ -134,6 +128,7 @@ let prod5 = new Contenedor("Marcador", 100);
 // prod1.deleteAll();
 
 // console.log(prod1.getAll());
+// prod1.saveDefault();
 
 module.exports = {
   Contenedor: Contenedor

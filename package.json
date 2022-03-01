@@ -12,6 +12,8 @@
     "body-parser": "^1.19.1",
     "express": "^4.17.2",
     "express-handlebars": "^6.0.2",
-    "morgan": "^1.10.0"
+    "knex": "^1.0.3",
+    "morgan": "^1.10.0",
+    "mysql": "^2.18.1"
   }
 }

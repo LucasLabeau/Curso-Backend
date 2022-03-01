@@ -6,20 +6,20 @@
       <form action="/api/productos" method="post" enctype="application/x-www-form-urlencoded">
         <div class="mb-3">
           <label class="form-label" for="title">Nombre</label>
-          <input class="form-control" type="text" name="title" value="">
+          <input class="form-control" type="text" name="title" value="" />
         </div>
         <div class="mb-3">
           <label class="form-label" for="price">Precio</label>
-          <input class="form-control" type="number" name="price" value="">
+          <input class="form-control" type="number" name="price" value="" />
         </div>
         <button type="submit" class="mb-5 btn btn-primary">Guardar</button>
       </form>
-      <a href="/productos"class="btn btn-info">Ver todos los productos</a>
+      <a href="/productos" class="btn btn-info">Ver todos los productos</a>
     </section>
   {{/if}}
 
-  <section>
-    {{#if hayProductos}}
+  {{#if hayProductos}}
+    <section>
       <h4>Nuestros Productos</h4>
       {{#each products}}
         <div class="products card">
@@ -30,7 +30,6 @@
         </div>
       {{/each}}
       <a class="btn btn-info" href="/">Volver al Form</a>
-    {{/if}}
-  </section>
-
+    </section>
+  {{/if}}
 </div>
