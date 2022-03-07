@@ -1,11 +1,13 @@
 // LLAMADA A DB
-const { options } = require('./options/mariaDB.js');
-const knex = require('knex')(options);
+const { config } = require('./options/config.js');
+const knex = require('knex');
 
 // VARIABLES GLOBALES
 const fs = require('fs');
 
 const path = './data.json';
+
+const knexMaria = knex(config.mariaDB);
 
 // DECLARACIÓN DE CLASE
 class Contenedor {
@@ -26,10 +28,10 @@ class Contenedor {
       products.push(contenido[i]);
     }
 
-    knex('products').insert(products)
+    knexMaria('products').insert(products)
       .then(() => console.log('Products inserted!'))
       .catch(e => console.error({codigo: `${e.errno} -> ${e.code}`, msg: e.sqlMessage}))
-      .finally(() => knex.destroy());
+      .finally(() => knexMaria.destroy());
   }
 
   // GUARDAR PRODUCTO
@@ -37,10 +39,10 @@ class Contenedor {
     let products = [];
     let newProduct = {title:obj.title, price:obj.price};
     let id;
-    knex('products').insert(newProduct)
+    knexMaria('products').insert(newProduct)
       .then(() => console.log('New product inserted!'))
       .catch(e => console.error({codigo: `${e.errno} -> ${e.code}`, msg: e.sqlMessage}))
-      .finally(() => knex.destroy());
+      .finally(() => knexMaria.destroy());
 
     return newProduct;
   }
@@ -49,14 +51,14 @@ class Contenedor {
   async getById(id) {
     let products = [];
 
-    knex.from('products').select('*').where('id', '=', id)
+    knexMaria.from('products').select('*').where('id', '=', id)
       .then(rows => {
         for (let row of rows) {
           products.push(row);
         }
       })
       .catch(e => console.error({codigo: `${e.errno} -> ${e.code}`, msg: e.sqlMessage}))
-      .finally(() => knex.destroy());
+      .finally(() => knexMaria.destroy());
 
       return await products[0];
   }
@@ -65,32 +67,32 @@ class Contenedor {
   async getAll() {
     let products = [];
 
-    knex.from('products').select('*')
+    knexMaria.from('products').select('*')
       .then(rows => {
         for (let row of rows) {
           products.push({id: row.id, title: row.title, price: row.price});
         }
       })
       .catch(e => console.error({codigo: `${e.errno} -> ${e.code}`, msg: e.sqlMessage}))
-      .finally(() => knex.destroy());
+      .finally(() => knexMaria.destroy());
 
       return await products;
   }
 
   // BORRAR UN PRODUCTO SEGÚN SU ID
   deleteById(id) {
-    knex.from('products').where('id', '=', id).del()
+    knexMaria.from('products').where('id', '=', id).del()
       .then(() => console.log('Product deleted'))
       .catch(e => console.error({codigo: `${e.errno} -> ${e.code}`, msg: e.sqlMessage}))
-      .finally(() => knex.destroy());
+      .finally(() => knexMaria.destroy());
   }
 
   // BORRAR TODOS LOS PRODUCTOS
   deleteAll() {
-    knex.from('products').whereExists('id').del()
-      .then(() => console.log('Product deleted'))
+    knexMaria.from('products').where('id', '>', 0).del()
+      .then(() => console.log('Products deleted'))
       .catch(e => console.error({codigo: `${e.errno} -> ${e.code}`, msg: e.sqlMessage}))
-      .finally(() => knex.destroy());
+      .finally(() => knexMaria.destroy());
   }
 }
 
@@ -111,7 +113,7 @@ let prod4 = new Contenedor("Cuaderno", 200);
 let prod5 = new Contenedor("Marcador", 100);
 // prod5.save(prod5);
 
-
+prod1.saveDefault();
 
 module.exports = {
   Contenedor: Contenedor

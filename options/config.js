@@ -1,8 +1,10 @@
-export default {
+const path = require('path');
+
+const config = {
   sqlite3: {
     client: 'better-sqlite3',
     connection: {
-      filename: './DB/ecommerce.sqlite'
+      filename: path.resolve(__dirname, './DB/ecommerce.sqlite')
     },
     useNullAsDefault: true
   },
@@ -16,4 +18,8 @@ export default {
       database: 'trial'
     }
   }
+}
+
+module.exports = {
+  config
 }
