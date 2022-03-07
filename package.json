@@ -9,6 +9,7 @@
   "author": "Lucas Labeau",
   "license": "ISC",
   "dependencies": {
+    "better-sqlite3": "^7.5.0",
     "body-parser": "^1.19.1",
     "express": "^4.17.2",
     "express-handlebars": "^6.0.2",

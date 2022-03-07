@@ -111,20 +111,7 @@ let prod4 = new Contenedor("Cuaderno", 200);
 let prod5 = new Contenedor("Marcador", 100);
 // prod5.save(prod5);
 
- console.log(prod3.getById(3));
 
- console.log(prod1.getAll());
-
- prod1.deleteById(6);
-
- prod2.save(prod2);
-
-// console.log(prod1.getAll());
-
- prod1.deleteAll();
-
-// console.log(prod1.getAll());
- prod1.saveDefault();
 
 module.exports = {
   Contenedor: Contenedor
