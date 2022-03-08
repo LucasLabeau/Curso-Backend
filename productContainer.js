@@ -11,9 +11,10 @@ const knexMaria = knex(config.mariaDB);
 
 // DECLARACIÓN DE CLASE
 class Contenedor {
-  constructor(title, price) {
+  constructor(title, price, img) {
     this.title = title;
     this.price = price;
+    this.img = img;
   }
 
   // MÉTODOS
@@ -36,7 +37,6 @@ class Contenedor {
 
   // GUARDAR PRODUCTO
   save(obj) {
-    let products = [];
     let newProduct = {title:obj.title, price:obj.price};
     let id;
     knexMaria('products').insert(newProduct)
@@ -64,7 +64,7 @@ class Contenedor {
   }
 
   // DEVOLVER TODOS LOS PRODUCTOS
-  async getAll() {
+  getAll() {
     let products = [];
 
     knexMaria.from('products').select('*')
@@ -76,7 +76,7 @@ class Contenedor {
       .catch(e => console.error({codigo: `${e.errno} -> ${e.code}`, msg: e.sqlMessage}))
       .finally(() => knexMaria.destroy());
 
-      return await products;
+      return products;
   }
 
   // BORRAR UN PRODUCTO SEGÚN SU ID
@@ -113,7 +113,6 @@ let prod4 = new Contenedor("Cuaderno", 200);
 let prod5 = new Contenedor("Marcador", 100);
 // prod5.save(prod5);
 
-prod1.saveDefault();
 
 module.exports = {
   Contenedor: Contenedor

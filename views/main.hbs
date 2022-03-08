@@ -33,7 +33,14 @@
     </section>
   {{/if}}
 
-  <section class="chatter">
-    
+  <section>
+    <ul id="messages">
+      {{#each messages}}
+        <li style="text-decoration: none;">{{this.author}}: {{this.message}} - {{this.fyh}}</li>
+      {{/each}}
+    </ul>
+    <form id="form" action="">
+      <input id="input" autocomplete="off" /><button type="submit">Send</button>
+    </form>
   </section>
 </div>

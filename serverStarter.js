@@ -8,8 +8,8 @@ const httpServer = new HttpServer(app)
 const io = new IOServer(httpServer)
 
 // LLAMADA A DB
-const { options } = require('./options/mariaDB.js');
-const knex = require('knex')(options);
+// const { options } = require('./options/mariaDB.js');
+// const knex = require('knex')(options);
 
 // ETC...
 const bodyParser = require('body-parser');
@@ -20,10 +20,15 @@ const router = express.Router();
 
 const handlebars = require('express-handlebars');
 
-// LLAMADA A INDEX
-const call = require('./index.js');
+// LLAMADA A CONTENEDOR PRODUCTOS
+const call = require('./productContainer.js');
 const contenedor = call.Contenedor;
 const obj = new contenedor();
+
+// LLAMADA A CONTENEDOR MENSAJES
+const callMsg = require('./messageContainer.js');
+const mensaje = callMsg.Mensaje;
+const msg = new mensaje;
 
 // PUERTO
 const port = 7070;
@@ -48,16 +53,19 @@ app.engine('hbs', handlebars.engine({
 
 // ACTIVACIÓN DEL SERVER
 httpServer.listen(port, () => {
-  console.log(`Http Server listening on port ${server.address().port}`);
+  console.log(`Http Server listening on port ${httpServer.address().port}`);
 });
 io.on('connection', (socket) => {
+    const messages = [];
     console.log('Usuario conectado');
 
     socket.emit('messages', messages);
 
     socket.on('message', data => {
-        messages.push({ socketId: socket.id, message: data })
-        io.sockets.emit('messages', messages);
+        let mensaje = { socketId: socket.id, message: data, fyh: new Date()}
+        messages.push(mensaje);
+        io.emit('messages', messages);
+        msg.save(mensaje);
     });
 
 })
@@ -65,10 +73,13 @@ io.on('connection', (socket) => {
 
 // RUTAS
 app.get('/', (req, res) => {
-  res.render('main', {hayProductos: false, form: true});
+  const allMessages = msg.getAll();
+  res.render('main', {messages: allMessages, hayProductos: false, form: true});
 })
 
 app.get('/productos', async(req, res) => {
   const allProducts = await obj.getAll();
-  res.render('main', {products: allProducts, hayProductos: true, form: false});
+  setTimeout(() => {
+    res.render('main', {products: allProducts, hayProductos: true, form: false});
+  }, 2000);
 });
