@@ -1,8 +1,11 @@
 // EXPRESS Y SERVER
 const express = require('express');
-const app = express();
-
 const {Server: HttpServer} = require('http');
+const {Server: IOServer} = require('socket.io');
+
+const app = express();
+const httpServer = new HttpServer(app)
+const io = new IOServer(httpServer)
 
 // LLAMADA A DB
 const { options } = require('./options/mariaDB.js');
@@ -44,10 +47,21 @@ app.engine('hbs', handlebars.engine({
 }));
 
 // ACTIVACIÓN DEL SERVER
-const server = app.listen(port, () => {
+httpServer.listen(port, () => {
   console.log(`Http Server listening on port ${server.address().port}`);
 });
-server.on("error", error => console.error(`Server Error ${error}`));
+io.on('connection', (socket) => {
+    console.log('Usuario conectado');
+
+    socket.emit('messages', messages);
+
+    socket.on('message', data => {
+        messages.push({ socketId: socket.id, message: data })
+        io.sockets.emit('messages', messages);
+    });
+
+})
+
 
 // RUTAS
 app.get('/', (req, res) => {
