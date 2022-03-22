@@ -16,28 +16,50 @@ class ContainerMongoDB {
       return docs;
     } catch (e) {
       console.error(e);
-    } finally {
-      console.log("Mostrando todos los docs de la colección...");
-      mongoose.disconnect().catch(e => console.error(e));
     }
 
   }
+
+  async listOne(query) {
+    try {
+      const doc = await this.coleccion.find(query);
+      console.log(doc);
+      return doc;
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
+  async write(obj) {
+    try {
+      await this.collection.insertOne(obj);
+      console.log(`Saved object: ${obj}`);
+    } catch (e) {
+      console.error(e)
+    }
+  }
+
+  async delete(query) {
+    try {
+      let deleter = await this.collection.deleteOne(query);
+      console.log(deleter);
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
+  async update(query, newParam) {
+    try {
+      let updater = await this.collection.updateOne(
+        query,
+        newParam
+      );
+      console.log(`Object updated: ${updater}`);
+    } catch (e) {
+      console.error(e)
+    }
+  }
+
 }
 
-let obj = new ContainerMongoDB('products',
-{
-  title: {
-    type: String,
-    required: true
-  },
-  price: {
-    type: Number,
-    default: 0,
-    required: true
-  },
-  img: {
-    type: String
-  }
-});
-
-console.log(await obj.listAll())
+export default ContainerMongoDB;
