@@ -24,23 +24,28 @@
       {{#each products}}
         <div class="products card">
           <div class="card-body">
-            <h5 class="card-title">{{this.title}}</h5>
+            <h5 class="card-title">{{this.name}}</h5>
             <h6 class="card-subtitle">{{this.price}}</h6>
           </div>
         </div>
       {{/each}}
       <a class="btn btn-info" href="/">Volver al Form</a>
     </section>
+    <section>
+      <table class="table">
+        <tr>
+          <th>Nombre</th>
+          <th>Precio</th>
+          <th>Imagen</th>
+        </tr>
+        {{#each products}}
+          <tr>
+            <td>{{this.name}}</td>
+            <td>{{this.price}}</td>
+            <td>{{this.img}}</td>
+          </tr>
+        {{/each}}
+      </table>
+    </section>
   {{/if}}
-
-  <section>
-    <ul id="messages">
-      {{#each messages}}
-        <li style="text-decoration: none;">{{this.author}}: {{this.message}} - {{this.fyh}}</li>
-      {{/each}}
-    </ul>
-    <form id="form" action="">
-      <input id="input" autocomplete="off" /><button type="submit">Send</button>
-    </form>
-  </section>
 </div>

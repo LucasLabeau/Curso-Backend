@@ -32,7 +32,7 @@ class ContainerMongoDB {
 
   async write(obj) {
     try {
-      await this.collection.insertOne(obj);
+      await new this.collection(obj).insertOne();
       console.log(`Saved object: ${obj}`);
     } catch (e) {
       console.error(e)
